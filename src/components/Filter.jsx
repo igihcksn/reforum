@@ -11,7 +11,7 @@ import {
   MenuList,
   Spacer,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   filterThreadByCategory,
@@ -22,10 +22,19 @@ import {
 const Filter = () => {
   const thread = useSelector(selectThread);
   const dispatch = useDispatch();
+  const [categories, setCategories] = useState([]);
 
   const onFilterThread = ({ category }) => {
     dispatch(filterThreadByCategory(category));
   };
+
+  useEffect(() => {
+    if (thread.data !== null) {
+      const categories = thread.data.map((data) => data.category);
+      const filteredCategories = categories.filter((category, index) => !categories.includes(category, index + 1));
+      setCategories(filteredCategories)      
+    }
+  },[thread])
 
   return (
     <Flex gap="2" py="3">
@@ -44,17 +53,17 @@ const Filter = () => {
           Filter
         </MenuButton>
         <MenuList>
-          {thread.data &&
-            thread.data.map((thread) => (
+          {categories.length &&
+            categories.map((category) => (
               <MenuItem
-                key={`id-${thread.category}`}
-                onClick={() => onFilterThread({ category: thread.category })}
+                key={`id-${category}`}
+                onClick={() => onFilterThread({ category })}
               >
-                {thread.category.toUpperCase()}
+                {category.toUpperCase()}
               </MenuItem>
             ))}
           <MenuItem onClick={() => dispatch(removeThreadByCategory())}>
-            Semua Kategori
+            SEMUA KATEGORI
           </MenuItem>
         </MenuList>
       </Menu>
