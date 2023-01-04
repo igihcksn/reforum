@@ -1,9 +1,13 @@
-const { Card, CardBody } = require("@chakra-ui/react");
+/* eslint-disable linebreak-style */
+import React from 'react';
+import { Card, CardBody } from '@chakra-ui/react';
 
-const ThreadNotFound = () => (
-  <Card>
-    <CardBody>Data tidak ditemukan</CardBody>
-  </Card>
-);
+function ThreadNotFound() {
+  return (
+    <Card>
+      <CardBody>Data tidak ditemukan</CardBody>
+    </Card>
+  );
+}
 
 export default ThreadNotFound;

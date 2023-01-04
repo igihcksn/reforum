@@ -1,7 +1,8 @@
-import { Box, Heading } from "@chakra-ui/react";
-import React from "react";
+/* eslint-disable linebreak-style */
+import { Box, Heading } from '@chakra-ui/react';
+import React from 'react';
 
-const Header = () => {
+function Header() {
   return (
     <Box
       display="flex"
@@ -21,6 +22,6 @@ const Header = () => {
       </Heading>
     </Box>
   );
-};
+}
 
 export default Header;

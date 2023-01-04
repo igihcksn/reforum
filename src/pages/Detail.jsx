@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import {
   Box,
   Card,
@@ -10,22 +11,22 @@ import {
   StackDivider,
   Tag,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   CommentForm,
   CommentStack,
   ThreadHeader,
   ThreadNotFound,
-} from "components";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+} from 'components';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import {
   detailThereadAsync,
   selectDetailThread,
-} from "states/threads/threadSlice";
+} from 'states/threads/threadSlice';
 
-const DetailPage = () => {
+function DetailPage() {
   const params = useParams();
   const dispatch = useDispatch();
   const detailThreads = useSelector(selectDetailThread);
@@ -49,15 +50,17 @@ const DetailPage = () => {
           </CardBody>
           <CardFooter flexDirection="column" gap={5}>
             <Heading as="h4" size="md">
-              Komentar <Tag>{detailThreads.comments.length}</Tag>
+              Komentar
+              {' '}
+              <Tag>{detailThreads.comments.length}</Tag>
             </Heading>
             <Divider />
             <Stack divider={<StackDivider />} spacing="4">
               {!detailThreads.comments.length && (
                 <Box>Komentar belum ada...</Box>
               )}
-              {detailThreads.comments.length &&
-                detailThreads.comments.map((comment) => (
+              {detailThreads.comments.length
+                && detailThreads.comments.map((comment) => (
                   <CommentStack key={comment.id} comment={comment} />
                 ))}
             </Stack>
@@ -68,6 +71,6 @@ const DetailPage = () => {
       {!detailThreads && <ThreadNotFound />}
     </Card>
   );
-};
+}
 
 export default DetailPage;

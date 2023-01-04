@@ -1,10 +1,11 @@
-const { BASE_URL } = require("constants");
+/* eslint-disable linebreak-style */
+const { BASE_URL } = require('constants');
 
 const getAllThread = async () => {
   const response = await fetch(`${BASE_URL.API}${BASE_URL.THREADS}`);
   const responseJson = await response.json();
 
-  if (responseJson.status !== "success") {
+  if (responseJson.status !== 'success') {
     return { error: true, data: null };
   }
 
@@ -14,4 +15,4 @@ const getAllThread = async () => {
   };
 };
 
-export { getAllThread };
+export default getAllThread;

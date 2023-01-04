@@ -1,5 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BASE_URL } from "constants";
+/* eslint-disable linebreak-style */
+/* eslint-disable no-param-reassign */
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { BASE_URL } from 'constants';
 
 const initialState = {
   loading: false,
@@ -9,56 +11,56 @@ const initialState = {
   token: null,
 };
 
-export const listUserAsync = createAsyncThunk("user/fetchUsers", async () => {
+export const listUserAsync = createAsyncThunk('user/fetchUsers', async () => {
   const response = await fetch(`${BASE_URL.API}${BASE_URL.USERS}`);
   const responseJson = await response.json();
   return responseJson;
 });
 
-export const registerUserAsync = createAsyncThunk("user/fetchRegisterUsers", async ({ name, email, password }) => {
+export const registerUserAsync = createAsyncThunk('user/fetchRegisterUsers', async ({ name, email, password }) => {
   const response = await fetch(`${BASE_URL.API}register`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, email, password }),
   });
   const responseJson = await response.json();
 
-  if (responseJson.status !== "success") {
+  if (responseJson.status !== 'success') {
     return { error: true, message: responseJson.message };
   }
 
   return { error: false };
 });
 
-export const loginUserAsync = createAsyncThunk("user/fetchLoginUsers", async ({ name, email, password }) => {
+export const loginUserAsync = createAsyncThunk('user/fetchLoginUsers', async ({ email, password }) => {
   const response = await fetch(`${BASE_URL.API}login`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   });
   const responseJson = await response.json();
 
-  if (responseJson.status !== "success") {
+  if (responseJson.status !== 'success') {
     return { error: true };
   }
 
   return { error: false, token: responseJson.data.token };
 });
 
-export const detailUserAsync = createAsyncThunk("user/fetchDetailUsers", async () => {
+export const detailUserAsync = createAsyncThunk('user/fetchDetailUsers', async () => {
   const response = await fetch(`${BASE_URL.API}${BASE_URL.USER_DETAIL}`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
   const responseJson = await response.json();
 
-  if (responseJson.status !== "success") {
+  if (responseJson.status !== 'success') {
     return { error: true };
   }
 
@@ -66,7 +68,7 @@ export const detailUserAsync = createAsyncThunk("user/fetchDetailUsers", async (
 });
 
 export const userSlice = createSlice({
-  name: "users",
+  name: 'users',
   initialState,
   reducers: {
     setUnAuthorizedUser: (state) => {
@@ -75,7 +77,7 @@ export const userSlice = createSlice({
     },
     setRefreshAuthorizedUser: (state) => {
       state.authenticated = true;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder

@@ -1,15 +1,12 @@
-const {
-  Box,
-  Flex,
-  Avatar,
-  Heading,
-  Text,
-  Button,
-  Tag,
-} = require("@chakra-ui/react");
-const { BiLike, BiDislike } = require("react-icons/bi");
+/* eslint-disable linebreak-style */
+import React from 'react';
+import {
+  Avatar, Box, Button, Flex, Heading, Tag, Text,
+} from '@chakra-ui/react';
+import { BiDislike, BiLike } from 'react-icons/bi';
+import PropTypes from 'prop-types';
 
-const CommentStack = ({ comment }) => {
+function CommentStack({ comment }) {
   return (
     <Box key={comment.id}>
       <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -47,6 +44,22 @@ const CommentStack = ({ comment }) => {
       </Flex>
     </Box>
   );
+}
+
+CommentStack.propTypes = {
+  comment: PropTypes.shape({
+    id: PropTypes.string,
+    category: PropTypes.string,
+    createdAt: PropTypes.string,
+    content: PropTypes.string,
+    title: PropTypes.string,
+    owner: PropTypes.shape({
+      name: PropTypes.string,
+      avatar: PropTypes.string,
+    }),
+    upVotesBy: PropTypes.arrayOf([]),
+    downVotesBy: PropTypes.arrayOf([]),
+  }).isRequired,
 };
 
 export default CommentStack;

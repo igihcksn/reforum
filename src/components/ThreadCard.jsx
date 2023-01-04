@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import {
   Avatar,
   Badge,
@@ -10,15 +11,16 @@ import {
   Heading,
   Skeleton,
   Text,
-} from "@chakra-ui/react";
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectUser } from "states/users/userSlice";
-import { getUserById, showFormattedDate } from "utilities";
-import { BASE_URL } from "constants";
-import { Link } from "react-router-dom";
+} from '@chakra-ui/react';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'states/users/userSlice';
+import { getUserById, showFormattedDate } from 'utilities';
+import { BASE_URL } from 'constants';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const ThreadCard = ({ data }) => {
+function ThreadCard({ data }) {
   const users = useSelector(selectUser);
 
   return (
@@ -32,8 +34,8 @@ const ThreadCard = ({ data }) => {
               {users.loading && <Skeleton height="10px" />}
               {!users.loading && (
                 <Heading size="sm">
-                  {data.ownerId &&
-                    getUserById({ ownerId: data.ownerId, users })}
+                  {data.ownerId
+                    && getUserById({ ownerId: data.ownerId, users })}
                 </Heading>
               )}
               <Text>{showFormattedDate(data.createdAt)}</Text>
@@ -43,7 +45,7 @@ const ThreadCard = ({ data }) => {
       </CardHeader>
       <CardBody>
         <Link
-          to={BASE_URL.THREAD_DETAIL.replace(":id", data.id)}
+          to={BASE_URL.THREAD_DETAIL.replace(':id', data.id)}
           state={{
             threadId: data.id,
           }}
@@ -58,8 +60,8 @@ const ThreadCard = ({ data }) => {
         justify="space-between"
         flexWrap="wrap"
         sx={{
-          "& > button": {
-            minW: "136px",
+          '& > button': {
+            minW: '136px',
           },
         }}
       >
@@ -67,6 +69,16 @@ const ThreadCard = ({ data }) => {
       </CardFooter>
     </Card>
   );
+}
+
+ThreadCard.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.string,
+    category: PropTypes.string,
+    createdAt: PropTypes.string,
+    title: PropTypes.string,
+    ownerId: PropTypes.string,
+  }).isRequired,
 };
 
 export default ThreadCard;

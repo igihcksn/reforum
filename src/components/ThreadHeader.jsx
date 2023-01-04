@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+import React from 'react';
 import {
   Avatar,
   Box,
@@ -6,11 +8,12 @@ import {
   Heading,
   Tag,
   Text,
-} from "@chakra-ui/react";
-import { BiDislike, BiLike } from "react-icons/bi";
-import { showFormattedDate } from "utilities";
+} from '@chakra-ui/react';
+import { BiDislike, BiLike } from 'react-icons/bi';
+import { showFormattedDate } from 'utilities';
+import PropTypes from 'prop-types';
 
-const ThreadHeader = ({ detailThreads }) => {
+function ThreadHeader({ detailThreads }) {
   return (
     <Flex spacing="4">
       <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -51,6 +54,19 @@ const ThreadHeader = ({ detailThreads }) => {
       </Flex>
     </Flex>
   );
+}
+
+ThreadHeader.propTypes = {
+  detailThreads: PropTypes.shape({
+    createdAt: PropTypes.string,
+    loading: PropTypes.bool,
+    owner: PropTypes.shape({
+      name: PropTypes.string,
+      avatar: PropTypes.string,
+    }),
+    upVotesBy: PropTypes.arrayOf([]),
+    downVotesBy: PropTypes.arrayOf([]),
+  }).isRequired,
 };
 
 export default ThreadHeader;

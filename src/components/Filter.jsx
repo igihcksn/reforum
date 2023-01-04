@@ -1,4 +1,5 @@
-import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
+/* eslint-disable linebreak-style */
+import { ChevronDownIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
   Flex,
@@ -10,16 +11,16 @@ import {
   MenuItem,
   MenuList,
   Spacer,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   filterThreadByCategory,
   removeThreadByCategory,
   selectThread,
-} from "states/threads/threadSlice";
+} from 'states/threads/threadSlice';
 
-const Filter = () => {
+function Filter() {
   const thread = useSelector(selectThread);
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
@@ -30,11 +31,13 @@ const Filter = () => {
 
   useEffect(() => {
     if (thread.data !== null) {
-      const categories = thread.data.map((data) => data.category);
-      const filteredCategories = categories.filter((category, index) => !categories.includes(category, index + 1));
-      setCategories(filteredCategories)      
+      const mapCategory = thread.data.map((data) => data.category);
+      const filteredCategories = mapCategory.filter(
+        (category, index) => !categories.includes(category, index + 1),
+      );
+      setCategories(filteredCategories);
     }
-  },[thread])
+  }, [thread]);
 
   return (
     <Flex gap="2" py="3">
@@ -44,8 +47,9 @@ const Filter = () => {
           pointerEvents="none"
           color="gray.300"
           fontSize="1.2em"
-          children={<SearchIcon />}
-        />
+        >
+          <SearchIcon />
+        </InputRightElement>
       </InputGroup>
       <Spacer />
       <Menu>
@@ -53,8 +57,8 @@ const Filter = () => {
           Filter
         </MenuButton>
         <MenuList>
-          {categories.length &&
-            categories.map((category) => (
+          {categories.length
+            && categories.map((category) => (
               <MenuItem
                 key={`id-${category}`}
                 onClick={() => onFilterThread({ category })}
@@ -69,6 +73,6 @@ const Filter = () => {
       </Menu>
     </Flex>
   );
-};
+}
 
 export default Filter;

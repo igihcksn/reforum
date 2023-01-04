@@ -1,17 +1,18 @@
+/* eslint-disable linebreak-style */
 import React from 'react';
-import PropTypes from "prop-types";
 import { Container } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 
-const Layout = ({ children }) => {
-    return (
-        <Container maxW="1200px" py={5}>
-          {children}
-        </Container>
-    );
+function Layout({ children }) {
+  return (
+    <Container maxW="1200px" py={5}>
+      {children}
+    </Container>
+  );
+}
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
-Layout.prototype = {
-    children: PropTypes.node,
-};
-   
 export default Layout;

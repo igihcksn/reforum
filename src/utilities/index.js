@@ -1,5 +1,6 @@
-import store from "./store";
-import theme from "./theme";
+/* eslint-disable linebreak-style */
+import store from './store';
+import theme from './theme';
 
 const generateDay = ({ createdAt }) => {
   const now = new Date();
@@ -9,12 +10,12 @@ const generateDay = ({ createdAt }) => {
 
 const showFormattedDate = (date) => {
   const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   };
-  return new Date(date).toLocaleDateString("id-ID", options);
+  return new Date(date).toLocaleDateString('id-ID', options);
 };
 
 const getUserById = ({ ownerId, users }) => {
@@ -22,21 +23,29 @@ const getUserById = ({ ownerId, users }) => {
     const res = users.data.filter((user) => user.id === ownerId);
     return res[0].name;
   }
+
+  return null;
 };
 
-const getAccessToken = () => localStorage.getItem("accessToken");
+const getAccessToken = () => localStorage.getItem('accessToken');
 
-const putAccessToken = (accessToken) =>
-  localStorage.setItem("accessToken", accessToken);
+const putAccessToken = (accessToken) => localStorage.setItem('accessToken', accessToken);
 
-const fetchWithToken = async (url, options = {}) => {
-  return fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
-  });
+const fetchWithToken = async (url, options = {}) => fetch(url, {
+  ...options,
+  headers: {
+    ...options.headers,
+    Authorization: `Bearer ${getAccessToken()}`,
+  },
+});
+
+export {
+  fetchWithToken,
+  getAccessToken,
+  generateDay,
+  getUserById,
+  putAccessToken,
+  showFormattedDate,
+  store,
+  theme,
 };
-
-export { fetchWithToken, getAccessToken, generateDay, getUserById, putAccessToken, showFormattedDate, store, theme };
