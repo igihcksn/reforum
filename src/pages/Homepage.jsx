@@ -13,6 +13,7 @@ const Homepage = () => {
   useEffect(() => {
     dispatch(listAsync());
     dispatch(listUserAsync());
+
   }, [dispatch]);
 
   return (

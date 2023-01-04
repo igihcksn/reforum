@@ -6,15 +6,36 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { BASE_URL } from "constants";
-import React from "react";
+import React, { useEffect } from "react";
 import { BiLogIn, BiPlus, BiRegistered, BiUserCircle } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { selectUser } from "states/users/userSlice";
+import { detailUserAsync, selectUser, setRefreshAuthorizedUser, setUnAuthorizedUser } from "states/users/userSlice";
+import { getAccessToken } from "utilities";
 
 const Navbar = () => {
   const users = useSelector(selectUser);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = getAccessToken();
+
+  const setLogout = () => {
+    localStorage.removeItem("accessToken");
+    dispatch(setUnAuthorizedUser());
+  };
+
+  useEffect(() => {
+    if (!token) {
+      dispatch(setUnAuthorizedUser());
+    }
+  },[dispatch, token]);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(setRefreshAuthorizedUser());
+      dispatch(detailUserAsync());
+    }
+  },[dispatch, token]);
 
   return (
     <nav>
@@ -27,7 +48,7 @@ const Navbar = () => {
           <>
             <Button leftIcon={<StarIcon />} onClick={() => navigate(BASE_URL.LEADERBOARD)}>Leaderboard</Button>
             <Button leftIcon={<BiPlus />}>Tambah Diskusi</Button>
-            <Button leftIcon={<BiUserCircle />}>Udin Nganga</Button>
+            <Button leftIcon={<BiUserCircle />} onClick={() => setLogout()}>{users.detail && users.detail.name}</Button>
           </>
         )}
         {users && !users.authenticated && (

@@ -24,4 +24,19 @@ const getUserById = ({ ownerId, users }) => {
   }
 };
 
-export { generateDay, getUserById, showFormattedDate, store, theme };
+const getAccessToken = () => localStorage.getItem("accessToken");
+
+const putAccessToken = (accessToken) =>
+  localStorage.setItem("accessToken", accessToken);
+
+const fetchWithToken = async (url, options = {}) => {
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  });
+};
+
+export { fetchWithToken, getAccessToken, generateDay, getUserById, putAccessToken, showFormattedDate, store, theme };
