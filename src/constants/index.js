@@ -7,10 +7,11 @@ const BASE_URL = {
   THREADS_COMMETS: 'threads/:id/comments',
   USERS: 'users',
   USER_DETAIL: 'users/me',
+  LEADERBOARDS: 'leaderboards',
 
   //   Pages
   HOMEPAGE: '/thread',
-  LEADERBOARD: 'leaderboard',
+  LEADERBOARD: '/leaderboards',
   LOGIN: '/login',
   REGISTER: '/register',
   THREAD_DETAIL: '/thread/:id',

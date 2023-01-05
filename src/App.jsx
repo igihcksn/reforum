@@ -24,10 +24,9 @@ function App() {
   const [isLogged, setLogged] = useState(false);
 
   useEffect(() => {
-    if (users.authenticated) {
-      setLogged(true);
-    }
-    setLogged(false);
+    if (users.authenticated) setLogged(true);
+
+    if (!users.authenticated) setLogged(false);
   }, [users]);
 
   return (
