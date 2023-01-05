@@ -1,21 +1,20 @@
 /* eslint-disable linebreak-style */
+import React, { useEffect } from 'react';
+import { Form, Formik } from 'formik';
+import { putAccessToken } from 'utilities';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUserAsync, selectUser } from 'states/users/userSlice';
+import { BASE_URL, LOGIN_SCHEMA, LOGIN_INITIAL_VALUE } from 'constants';
 import {
   Button, FormControl, FormHelperText, FormLabel, Input, useToast,
 } from '@chakra-ui/react';
-import { BASE_URL, LOGIN_SCHEMA, LOGIN_INITIAL_VALUE } from 'constants';
-
-import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { loginUserAsync, selectUser } from 'states/users/userSlice';
-import { putAccessToken } from 'utilities';
 
 function Login() {
-  const dispatch = useDispatch();
-  const users = useSelector(selectUser);
   const toast = useToast();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const users = useSelector(selectUser);
 
   const onSubmitHandler = (values, { setSubmitting }) => {
     dispatch(loginUserAsync({ ...values }));

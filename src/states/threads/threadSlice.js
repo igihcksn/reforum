@@ -44,6 +44,24 @@ export const createThereadAsync = createAsyncThunk('thread/createTheread', async
   return { error: false, data: responseJson.data.thread };
 });
 
+export const createCommentAsync = createAsyncThunk('thread/createComment', async ({ content, threadId }) => {
+  const response = await fetch(`${BASE_URL.API}${BASE_URL.THREADS_COMMETS.replace(':id', threadId)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+    body: JSON.stringify({ content }),
+  });
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, expired: responseJson.status === 'fail' };
+  }
+
+  return { error: false, data: responseJson.data.comment };
+});
+
 export const threadSlice = createSlice({
   name: 'threads',
   initialState,
@@ -78,6 +96,20 @@ export const threadSlice = createSlice({
           action.payload.data,
           ...state.data,
         ];
+      })
+      .addCase(createCommentAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createCommentAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.expired = action.payload.data.expired;
+        state.detail = {
+          ...state.detail,
+          comments: [
+            action.payload.data,
+            ...state.detail.comments,
+          ],
+        };
       })
       .addCase(detailThereadAsync.fulfilled, (state, action) => {
         state.detail = action.payload.data.detailThread;

@@ -57,8 +57,8 @@ CommentStack.propTypes = {
       name: PropTypes.string,
       avatar: PropTypes.string,
     }),
-    upVotesBy: PropTypes.arrayOf([]),
-    downVotesBy: PropTypes.arrayOf([]),
+    upVotesBy: PropTypes.arrayOf(PropTypes.string),
+    downVotesBy: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
 

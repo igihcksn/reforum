@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 const BASE_URL = {
   API: 'https://forum-api.dicoding.dev/v1/',
   THREADS: 'threads',
+  THREADS_COMMETS: 'threads/:id/comments',
   USERS: 'users',
   USER_DETAIL: 'users/me',
 
@@ -33,6 +34,10 @@ const THREAD_INITIAL_VALUE = {
   category: '',
 };
 
+const COMMENT_INITIAL_VALUE = {
+  content: '',
+};
+
 const REGISTER_SCHEMA = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Nama Terlalu Pendek')
@@ -47,6 +52,10 @@ const REGISTER_SCHEMA = Yup.object().shape({
 const LOGIN_SCHEMA = Yup.object().shape({
   email: Yup.string().email('Email tidak valid').required('Email wajib diisi'),
   password: Yup.string().required('Password wajib diisi'),
+});
+
+const COMMENT_SCHEMA = Yup.object().shape({
+  content: Yup.string().required('Komentar wajib diisi'),
 });
 
 const THREAD_SCHEMA = Yup.object().shape({
@@ -66,6 +75,8 @@ const THREAD_SCHEMA = Yup.object().shape({
 
 export {
   BASE_URL,
+  COMMENT_INITIAL_VALUE,
+  COMMENT_SCHEMA,
   LOGIN_INITIAL_VALUE,
   LOGIN_SCHEMA,
   REGISTER_INITIAL_VALUE,
