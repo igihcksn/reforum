@@ -27,6 +27,7 @@ function App() {
     if (users.authenticated) {
       setLogged(true);
     }
+    setLogged(false);
   }, [users]);
 
   return (
