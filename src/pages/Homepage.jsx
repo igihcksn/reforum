@@ -14,10 +14,10 @@ function Homepage() {
   useEffect(() => {
     dispatch(listAsync());
     dispatch(listUserAsync());
-  }, [dispatch]);
+  }, []);
 
   return (
-    <SimpleGrid columns={{ xl: 3, sm: 2 }} spacing={{ xl: 10, sm: 5 }}>
+    <SimpleGrid columns={{ xl: 3, sm: 1 }} spacing={{ xl: 10, sm: 5 }}>
       {threads.loading && <>Loading...</>}
       {!threads.loading
         && !threads.filtered

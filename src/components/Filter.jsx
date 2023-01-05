@@ -21,8 +21,8 @@ import {
 } from 'states/threads/threadSlice';
 
 function Filter() {
-  const thread = useSelector(selectThread);
   const dispatch = useDispatch();
+  const thread = useSelector(selectThread);
   const [categories, setCategories] = useState([]);
 
   const onFilterThread = ({ category }) => {
@@ -33,7 +33,7 @@ function Filter() {
     if (thread.data !== null) {
       const mapCategory = thread.data.map((data) => data.category);
       const filteredCategories = mapCategory.filter(
-        (category, index) => !categories.includes(category, index + 1),
+        (category, index) => !mapCategory.includes(category, index + 1),
       );
       setCategories(filteredCategories);
     }
@@ -60,7 +60,7 @@ function Filter() {
           {categories.length
             && categories.map((category) => (
               <MenuItem
-                key={`id-${category}`}
+                key={`id-${category}-${Math.random()}`}
                 onClick={() => onFilterThread({ category })}
               >
                 {category.toUpperCase()}

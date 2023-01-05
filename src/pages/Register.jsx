@@ -26,7 +26,7 @@ function Register() {
       toast({
         title: 'Akun berhasil ditambahkan.',
         status: 'success',
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
       navigate(BASE_URL.LOGIN);
@@ -35,7 +35,7 @@ function Register() {
         title: 'Akun tidak berhasil ditambahkan.',
         description: users.message,
         status: 'error',
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
     }

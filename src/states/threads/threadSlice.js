@@ -26,6 +26,24 @@ export const detailThereadAsync = createAsyncThunk(
   },
 );
 
+export const createThereadAsync = createAsyncThunk('thread/createTheread', async ({ title, body, category }) => {
+  const response = await fetch(`${BASE_URL.API}${BASE_URL.THREADS}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+    body: JSON.stringify({ title, body, category }),
+  });
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, expired: responseJson.status === 'fail' };
+  }
+
+  return { error: false, data: responseJson.data.thread };
+});
+
 export const threadSlice = createSlice({
   name: 'threads',
   initialState,
@@ -48,6 +66,18 @@ export const threadSlice = createSlice({
         state.loading = false;
         state.error = false;
         state.data = action.payload.data.threads;
+      })
+      .addCase(createThereadAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createThereadAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.expired = action.payload.data.expired;
+        state.created = action.payload.data ?? true;
+        state.data = [
+          action.payload.data,
+          ...state.data,
+        ];
       })
       .addCase(detailThereadAsync.fulfilled, (state, action) => {
         state.detail = action.payload.data.detailThread;

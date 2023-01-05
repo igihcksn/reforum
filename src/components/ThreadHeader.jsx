@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 
 function ThreadHeader({ detailThreads }) {
   return (
-    <Flex spacing="4">
+    <Flex spacing="4" direction={{ md: 'row', sm: 'column' }}>
       <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
         <Avatar
           name={detailThreads.owner.name}
@@ -35,7 +35,7 @@ function ThreadHeader({ detailThreads }) {
         flex="1"
         alignItems="center"
         justifyContent="flex-end"
-        flexWrap="wrap"
+        direction={{ md: 'row', sm: 'row' }}
       >
         <Button
           variant="ghost"

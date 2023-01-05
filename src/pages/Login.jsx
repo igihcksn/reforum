@@ -28,7 +28,7 @@ function Login() {
       toast({
         title: 'Selamat berdiskusi.',
         status: 'success',
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
       navigate(BASE_URL.HOMEPAGE);

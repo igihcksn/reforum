@@ -25,10 +25,12 @@ import {
   detailThereadAsync,
   selectDetailThread,
 } from 'states/threads/threadSlice';
+import { selectUser } from 'states/users/userSlice';
 
 function DetailPage() {
   const params = useParams();
   const dispatch = useDispatch();
+  const users = useSelector(selectUser);
   const detailThreads = useSelector(selectDetailThread);
 
   useEffect(() => {
@@ -64,7 +66,12 @@ function DetailPage() {
                   <CommentStack key={comment.id} comment={comment} />
                 ))}
             </Stack>
-            <CommentForm />
+            {users && users.authenticated && (
+              <CommentForm />
+            )}
+            {users && !users.authenticated && (
+              <>Login untuk menambahkan komentar...</>
+            )}
           </CardFooter>
         </>
       )}

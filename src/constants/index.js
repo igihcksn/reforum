@@ -27,6 +27,12 @@ const LOGIN_INITIAL_VALUE = {
   password: '',
 };
 
+const THREAD_INITIAL_VALUE = {
+  title: '',
+  body: '',
+  category: '',
+};
+
 const REGISTER_SCHEMA = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Nama Terlalu Pendek')
@@ -43,6 +49,27 @@ const LOGIN_SCHEMA = Yup.object().shape({
   password: Yup.string().required('Password wajib diisi'),
 });
 
+const THREAD_SCHEMA = Yup.object().shape({
+  title: Yup.string()
+    .min(2, 'Judul Terlalu Pendek')
+    .max(50, 'Judul Terlalu Panjang')
+    .required('Judul wajib diisi'),
+  body: Yup.string()
+    .min(2, 'Konten Terlalu Pendek')
+    .max(250, 'Konten Terlalu Panjang')
+    .required('Konten wajib diisi'),
+  category: Yup.string()
+    .min(2, 'Kategori Terlalu Pendek')
+    .max(50, 'Kategori Terlalu Panjang')
+    .required('Kategori wajib diisi'),
+});
+
 export {
-  BASE_URL, LOGIN_INITIAL_VALUE, LOGIN_SCHEMA, REGISTER_INITIAL_VALUE, REGISTER_SCHEMA,
+  BASE_URL,
+  LOGIN_INITIAL_VALUE,
+  LOGIN_SCHEMA,
+  REGISTER_INITIAL_VALUE,
+  REGISTER_SCHEMA,
+  THREAD_INITIAL_VALUE,
+  THREAD_SCHEMA,
 };

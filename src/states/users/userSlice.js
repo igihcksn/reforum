@@ -61,7 +61,7 @@ export const detailUserAsync = createAsyncThunk('user/fetchDetailUsers', async (
   const responseJson = await response.json();
 
   if (responseJson.status !== 'success') {
-    return { error: true };
+    return { error: true, expired: responseJson.status === 'fail' };
   }
 
   return { error: false, data: responseJson.data.user };
@@ -110,8 +110,9 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(detailUserAsync.fulfilled, (state, action) => {
-        const { error, data } = action.payload;
+        const { error, expired, data } = action.payload;
         state.loading = false;
+        state.expired = expired;
         state.error = !error;
         state.detail = data;
       });
