@@ -5,6 +5,7 @@ import {
 } from '@chakra-ui/react';
 import { BiDislike, BiLike } from 'react-icons/bi';
 import PropTypes from 'prop-types';
+import { showFormattedDate } from 'utilities';
 
 function CommentStack({ comment }) {
   return (
@@ -18,6 +19,7 @@ function CommentStack({ comment }) {
 
         <Box>
           <Heading size="sm">{comment.owner && comment.owner.name}</Heading>
+          <Text>{showFormattedDate(comment.createdAt)}</Text>
           <Text dangerouslySetInnerHTML={{ __html: comment.content }} />
         </Box>
       </Flex>

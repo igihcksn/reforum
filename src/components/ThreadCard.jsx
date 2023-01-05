@@ -66,6 +66,11 @@ function ThreadCard({ data }) {
         }}
       >
         <Badge>{data.category}</Badge>
+        <Text>
+          Komentar:
+          {' '}
+          {data.totalComments}
+        </Text>
       </CardFooter>
     </Card>
   );
@@ -78,6 +83,7 @@ ThreadCard.propTypes = {
     createdAt: PropTypes.string,
     title: PropTypes.string,
     ownerId: PropTypes.string,
+    totalComments: PropTypes.number,
   }).isRequired,
 };
 

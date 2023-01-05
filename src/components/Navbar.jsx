@@ -102,7 +102,7 @@ function Navbar() {
                   <MenuItem onClick={() => navigate(BASE_URL.LEADERBOARD)}>
                     Leaderboard
                   </MenuItem>
-                  <MenuItem leftIcon={<BiPlus />} onClick={onOpen}>Tambah Diskusi</MenuItem>
+                  <MenuItem onClick={onOpen}>Tambah Diskusi</MenuItem>
                   <MenuItem onClick={() => setLogout()}>
                     {users.detail && users.detail.name}
 
