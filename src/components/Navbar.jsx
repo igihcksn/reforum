@@ -27,6 +27,7 @@ function Navbar() {
   const setLogout = () => {
     localStorage.removeItem('accessToken');
     dispatch(setUnAuthorizedUser());
+    navigate(BASE_URL.LOGIN);
   };
 
   useEffect(() => {

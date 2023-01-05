@@ -33,7 +33,7 @@ function Login() {
       });
       navigate(BASE_URL.HOMEPAGE);
     }
-  }, [navigate, toast, users]);
+  }, [users]);
 
   return (
     <Formik

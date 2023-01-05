@@ -8,7 +8,7 @@ const BASE_URL = {
   USER_DETAIL: 'users/me',
 
   //   Pages
-  HOMEPAGE: '/',
+  HOMEPAGE: '/thread',
   LEADERBOARD: 'leaderboard',
   LOGIN: '/login',
   REGISTER: '/register',
