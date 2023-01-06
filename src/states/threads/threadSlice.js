@@ -62,6 +62,40 @@ export const createCommentAsync = createAsyncThunk('thread/createComment', async
   return { error: false, data: responseJson.data.comment };
 });
 
+export const upVoteThreadAsync = createAsyncThunk('thread/upVote', async ({ threadId }) => {
+  const response = await fetch(`${BASE_URL.API}${BASE_URL.UP_VOTE.replace(':threadId', threadId)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, expired: responseJson.status === 'fail' };
+  }
+
+  return { error: false, data: responseJson.data.vote };
+});
+
+export const downVoteThreadAsync = createAsyncThunk('thread/downVote', async ({ threadId }) => {
+  const response = await fetch(`${BASE_URL.API}${BASE_URL.DOWN_VOTE.replace(':threadId', threadId)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, expired: responseJson.status === 'fail' };
+  }
+
+  return { error: false, data: responseJson.data.vote };
+});
+
 export const threadSlice = createSlice({
   name: 'threads',
   initialState,
@@ -108,6 +142,34 @@ export const threadSlice = createSlice({
           comments: [
             action.payload.data,
             ...state.detail.comments,
+          ],
+        };
+      })
+      .addCase(upVoteThreadAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(upVoteThreadAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.expired = action.payload.data.expired;
+        state.detail = {
+          ...state.detail,
+          upVotesBy: [
+            action.payload.data.userId,
+            ...state.detail.upVotesBy,
+          ],
+        };
+      })
+      .addCase(downVoteThreadAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(downVoteThreadAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.expired = action.payload.data.expired;
+        state.detail = {
+          ...state.detail,
+          downVotesBy: [
+            action.payload.data.userId,
+            ...state.detail.downVotesBy,
           ],
         };
       })

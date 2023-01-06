@@ -8,6 +8,10 @@ const BASE_URL = {
   USERS: 'users',
   USER_DETAIL: 'users/me',
   LEADERBOARDS: 'leaderboards',
+  UP_VOTE: 'threads/:threadId/up-vote',
+  DOWN_VOTE: 'threads/:threadId/down-vote',
+  UNDO_VOTE_THREAD: 'threads/:threadId/neutral-vote',
+  UNDO_VOTE_COMMENT: 'threads/:threadId/comments/:commentId/neutral-vote',
 
   //   Pages
   HOMEPAGE: '/thread',

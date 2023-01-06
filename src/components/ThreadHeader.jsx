@@ -13,7 +13,14 @@ import { BiDislike, BiLike } from 'react-icons/bi';
 import { showFormattedDate } from 'utilities';
 import PropTypes from 'prop-types';
 
-function ThreadHeader({ detailThreads }) {
+function ThreadHeader({
+  detailThreads, upVoteThreadHandler, downVoteThreadHandler, user,
+}) {
+  const isVoteByMe = detailThreads.upVotesBy
+    && detailThreads.upVotesBy.includes(user);
+  const isDownVoteByMe = detailThreads.downVotesBy
+    && detailThreads.downVotesBy.includes(user);
+
   return (
     <Flex spacing="4" direction={{ md: 'row', sm: 'column' }}>
       <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -38,16 +45,22 @@ function ThreadHeader({ detailThreads }) {
         direction={{ md: 'row', sm: 'row' }}
       >
         <Button
-          variant="ghost"
+          variant={isVoteByMe ? 'solid' : 'ghost'}
           leftIcon={<BiLike />}
-          rightIcon={<Tag>{detailThreads.upVotesBy.length}</Tag>}
+          rightIcon={<Tag variant={isVoteByMe ? 'solid' : 'ghost'} colorScheme={isVoteByMe && 'gray'}>{detailThreads.upVotesBy.length}</Tag>}
+          onClick={() => upVoteThreadHandler()}
+          disabled={isVoteByMe}
+          colorScheme={isVoteByMe && 'green'}
         >
           Like
         </Button>
         <Button
-          variant="ghost"
+          variant={isDownVoteByMe ? 'solid' : 'ghost'}
           leftIcon={<BiDislike />}
-          rightIcon={<Tag>{detailThreads.downVotesBy.length}</Tag>}
+          rightIcon={<Tag variant={isDownVoteByMe ? 'solid' : 'ghost'} colorScheme={isDownVoteByMe && 'gray'}>{detailThreads.downVotesBy.length}</Tag>}
+          onClick={() => downVoteThreadHandler()}
+          disabled={isDownVoteByMe}
+          colorScheme={isDownVoteByMe && 'tomato'}
         >
           Unlike
         </Button>
@@ -67,6 +80,9 @@ ThreadHeader.propTypes = {
     upVotesBy: PropTypes.arrayOf(PropTypes.string),
     downVotesBy: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  upVoteThreadHandler: PropTypes.func.isRequired,
+  downVoteThreadHandler: PropTypes.func.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 export default ThreadHeader;

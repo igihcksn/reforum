@@ -23,7 +23,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
   detailThereadAsync,
+  downVoteThreadAsync,
   selectDetailThread,
+  upVoteThreadAsync,
 } from 'states/threads/threadSlice';
 import { selectUser } from 'states/users/userSlice';
 
@@ -32,6 +34,9 @@ function DetailPage() {
   const dispatch = useDispatch();
   const users = useSelector(selectUser);
   const detailThreads = useSelector(selectDetailThread);
+
+  const upVoteThreadHandler = () => dispatch(upVoteThreadAsync({ threadId: detailThreads.id }));
+  const downVoteThreadHandler = () => dispatch(downVoteThreadAsync({ threadId: detailThreads.id }));
 
   useEffect(() => {
     if (params.id) {
@@ -44,7 +49,12 @@ function DetailPage() {
       {detailThreads && (
         <>
           <CardHeader>
-            <ThreadHeader detailThreads={detailThreads} />
+            <ThreadHeader
+              detailThreads={detailThreads}
+              upVoteThreadHandler={upVoteThreadHandler}
+              downVoteThreadHandler={downVoteThreadHandler}
+              user={users && users.detail.id}
+            />
           </CardHeader>
           <CardBody>
             <Heading as="h2">{detailThreads.title}</Heading>
