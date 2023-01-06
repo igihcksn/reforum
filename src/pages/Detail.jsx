@@ -23,8 +23,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
   detailThereadAsync,
+  downVoteCommentAsync,
   downVoteThreadAsync,
   selectDetailThread,
+  upVoteCommentAsync,
   upVoteThreadAsync,
 } from 'states/threads/threadSlice';
 import { selectUser } from 'states/users/userSlice';
@@ -37,6 +39,12 @@ function DetailPage() {
 
   const upVoteThreadHandler = () => dispatch(upVoteThreadAsync({ threadId: detailThreads.id }));
   const downVoteThreadHandler = () => dispatch(downVoteThreadAsync({ threadId: detailThreads.id }));
+  const upVoteCommentHandler = ({
+    commentId,
+  }) => dispatch(upVoteCommentAsync({ threadId: detailThreads.id, commentId }));
+  const downVoteCommentHandler = ({
+    commentId,
+  }) => dispatch(downVoteCommentAsync({ threadId: detailThreads.id, commentId }));
 
   useEffect(() => {
     if (params.id) {
@@ -73,7 +81,13 @@ function DetailPage() {
               )}
               {detailThreads.comments.length
                 && detailThreads.comments.map((comment) => (
-                  <CommentStack key={comment.id} comment={comment} />
+                  <CommentStack
+                    key={comment.id}
+                    comment={comment}
+                    user={users && users.detail.id}
+                    upVoteCommentHandler={upVoteCommentHandler}
+                    downVoteCommentHandler={downVoteCommentHandler}
+                  />
                 ))}
             </Stack>
             {users && users.authenticated && (

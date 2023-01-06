@@ -60,7 +60,7 @@ function ThreadHeader({
           rightIcon={<Tag variant={isDownVoteByMe ? 'solid' : 'ghost'} colorScheme={isDownVoteByMe && 'gray'}>{detailThreads.downVotesBy.length}</Tag>}
           onClick={() => downVoteThreadHandler()}
           disabled={isDownVoteByMe}
-          colorScheme={isDownVoteByMe && 'tomato'}
+          colorScheme={isDownVoteByMe && 'red'}
         >
           Unlike
         </Button>

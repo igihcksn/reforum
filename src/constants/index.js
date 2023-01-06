@@ -9,7 +9,9 @@ const BASE_URL = {
   USER_DETAIL: 'users/me',
   LEADERBOARDS: 'leaderboards',
   UP_VOTE: 'threads/:threadId/up-vote',
+  UP_VOTE_COMMENT: 'threads/:threadId/comments/:commentId/up-vote',
   DOWN_VOTE: 'threads/:threadId/down-vote',
+  DOWN_VOTE_COMMENT: 'threads/:threadId/comments/:commentId/down-vote',
   UNDO_VOTE_THREAD: 'threads/:threadId/neutral-vote',
   UNDO_VOTE_COMMENT: 'threads/:threadId/comments/:commentId/neutral-vote',
 

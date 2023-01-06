@@ -62,6 +62,40 @@ export const createCommentAsync = createAsyncThunk('thread/createComment', async
   return { error: false, data: responseJson.data.comment };
 });
 
+export const upVoteCommentAsync = createAsyncThunk('thread/upVoteComment', async ({ threadId, commentId }) => {
+  const response = await fetch(`${BASE_URL.API}${BASE_URL.UP_VOTE_COMMENT.replace(':threadId', threadId).replace(':commentId', commentId)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, expired: responseJson.status === 'fail' };
+  }
+
+  return { error: false, data: responseJson.data.vote };
+});
+
+export const downVoteCommentAsync = createAsyncThunk('thread/downVoteComment', async ({ threadId, commentId }) => {
+  const response = await fetch(`${BASE_URL.API}${BASE_URL.DOWN_VOTE_COMMENT.replace(':threadId', threadId).replace(':commentId', commentId)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, expired: responseJson.status === 'fail' };
+  }
+
+  return { error: false, data: responseJson.data.vote };
+});
+
 export const upVoteThreadAsync = createAsyncThunk('thread/upVote', async ({ threadId }) => {
   const response = await fetch(`${BASE_URL.API}${BASE_URL.UP_VOTE.replace(':threadId', threadId)}`, {
     method: 'POST',
@@ -172,6 +206,36 @@ export const threadSlice = createSlice({
             ...state.detail.downVotesBy,
           ],
         };
+      })
+      .addCase(upVoteCommentAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(upVoteCommentAsync.fulfilled, (state, action) => {
+        const indexComment = state.detail.comments.map(
+          (comment) => comment.id,
+        ).indexOf(action.payload.data.commentId);
+
+        state.loading = false;
+        state.expired = action.payload.data.expired;
+        state.detail.comments[indexComment].upVotesBy = [
+          action.payload.data.userId,
+          ...state.detail.comments[indexComment].upVotesBy,
+        ];
+      })
+      .addCase(downVoteCommentAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(downVoteCommentAsync.fulfilled, (state, action) => {
+        const indexComment = state.detail.comments.map(
+          (comment) => comment.id,
+        ).indexOf(action.payload.data.commentId);
+
+        state.loading = false;
+        state.expired = action.payload.data.expired;
+        state.detail.comments[indexComment].downVotesBy = [
+          action.payload.data.userId,
+          ...state.detail.comments[indexComment].downVotesBy,
+        ];
       })
       .addCase(detailThereadAsync.fulfilled, (state, action) => {
         state.detail = action.payload.data.detailThread;

@@ -7,7 +7,14 @@ import { BiDislike, BiLike } from 'react-icons/bi';
 import PropTypes from 'prop-types';
 import { showFormattedDate } from 'utilities';
 
-function CommentStack({ comment }) {
+function CommentStack({
+  comment, upVoteCommentHandler, downVoteCommentHandler, user,
+}) {
+  const isVoteByMe = comment.upVotesBy
+    && comment.upVotesBy.includes(user);
+  const isDownVoteByMe = comment.downVotesBy
+    && comment.downVotesBy.includes(user);
+
   return (
     <Box key={comment.id}>
       <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -30,16 +37,22 @@ function CommentStack({ comment }) {
         flexWrap="wrap"
       >
         <Button
-          variant="ghost"
+          variant={isVoteByMe ? 'solid' : 'ghost'}
           leftIcon={<BiLike />}
-          rightIcon={<Tag>{comment.upVotesBy.length}</Tag>}
+          rightIcon={<Tag variant={isVoteByMe ? 'solid' : 'ghost'} colorScheme={isVoteByMe && 'gray'}>{comment.upVotesBy.length}</Tag>}
+          onClick={() => upVoteCommentHandler({ commentId: comment.id })}
+          disabled={isVoteByMe}
+          colorScheme={isVoteByMe && 'green'}
         >
           Like
         </Button>
         <Button
-          variant="ghost"
+          variant={isDownVoteByMe ? 'solid' : 'ghost'}
           leftIcon={<BiDislike />}
-          rightIcon={<Tag>{comment.downVotesBy.length}</Tag>}
+          rightIcon={<Tag variant={isDownVoteByMe ? 'solid' : 'ghost'} colorScheme={isDownVoteByMe && 'gray'}>{comment.downVotesBy.length}</Tag>}
+          onClick={() => downVoteCommentHandler({ commentId: comment.id })}
+          disabled={isDownVoteByMe}
+          colorScheme={isDownVoteByMe && 'red'}
         >
           Unlike
         </Button>
@@ -62,6 +75,9 @@ CommentStack.propTypes = {
     upVotesBy: PropTypes.arrayOf(PropTypes.string),
     downVotesBy: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  upVoteCommentHandler: PropTypes.func.isRequired,
+  downVoteCommentHandler: PropTypes.func.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 export default CommentStack;
