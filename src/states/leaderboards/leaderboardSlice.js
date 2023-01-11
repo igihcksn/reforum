@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL } from 'constants';
+import leaderboardAPI from './leaderboardApi';
 
 const initialState = {
   loading: false,
@@ -10,9 +10,8 @@ const initialState = {
 };
 
 export const fetchLeaderboardAsync = createAsyncThunk('leaderboard/fetchLeaderboard', async () => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.LEADERBOARDS}`);
-  const responseJson = await response.json();
-  return responseJson;
+  const response = await leaderboardAPI.fetchAll();
+  return response;
 });
 
 export const leaderboardSlice = createSlice({

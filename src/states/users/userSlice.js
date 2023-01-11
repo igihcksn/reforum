@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL } from 'constants';
+import userAPI from './userAPI';
 
 const initialState = {
   loading: false,
@@ -12,59 +12,38 @@ const initialState = {
 };
 
 export const listUserAsync = createAsyncThunk('user/fetchUsers', async () => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.USERS}`);
-  const responseJson = await response.json();
-  return responseJson;
+  const response = await userAPI.fetchAll();
+  return response;
 });
 
 export const registerUserAsync = createAsyncThunk('user/fetchRegisterUsers', async ({ name, email, password }) => {
-  const response = await fetch(`${BASE_URL.API}register`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name, email, password }),
-  });
-  const responseJson = await response.json();
+  const response = await userAPI.register({ name, email, password });
 
-  if (responseJson.status !== 'success') {
-    return { error: true, message: responseJson.message };
+  if (response.status !== 'success') {
+    return { error: true, message: response.message };
   }
 
   return { error: false };
 });
 
 export const loginUserAsync = createAsyncThunk('user/fetchLoginUsers', async ({ email, password }) => {
-  const response = await fetch(`${BASE_URL.API}login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  const responseJson = await response.json();
+  const response = await userAPI.login({ email, password });
 
-  if (responseJson.status !== 'success') {
+  if (response.status !== 'success') {
     return { error: true };
   }
 
-  return { error: false, token: responseJson.data.token };
+  return { error: false, token: response.data.token };
 });
 
 export const detailUserAsync = createAsyncThunk('user/fetchDetailUsers', async () => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.USER_DETAIL}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  const responseJson = await response.json();
+  const response = await userAPI.detail();
 
-  if (responseJson.status !== 'success') {
-    return { error: true, expired: responseJson.status === 'fail' };
+  if (response.status !== 'success') {
+    return { error: true, expired: response.status === 'fail' };
   }
 
-  return { error: false, data: responseJson.data.user };
+  return { error: false, data: response.data.user };
 });
 
 export const userSlice = createSlice({
