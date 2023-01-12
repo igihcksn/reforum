@@ -1,19 +1,9 @@
 /* eslint-disable linebreak-style */
+import { configureStore } from '@reduxjs/toolkit';
 import { store } from 'utilities';
+import { listUserAsync, selectUser } from './userSlice';
 
 describe('User Redux State', () => {
-  const mockUpResponse = {
-    data: {
-      users: [
-        {
-          id: 'user-1',
-          name: 'John Doe',
-          email: 'johndoe@mail.com',
-          avatar: 'https://generated-image-url.jpg',
-        },
-      ],
-    },
-  };
   test('Have default value', () => {
     const state = store.getState().users;
     expect(state).toEqual({
@@ -24,23 +14,145 @@ describe('User Redux State', () => {
       token: null,
     });
   });
-  test('fetchLeaderboard, Pending', () => {
-    store.dispatch({ type: 'user/fetchUser/pending' });
+
+  test('fetchUser, Pending', () => {
+    store.dispatch({ type: 'user/fetchUsers/pending' });
 
     const { loading } = store.getState().users;
-    expect(loading).toBeFalsy();
+    expect(loading).toBeTruthy();
   });
-//   test('fetchLeaderboard, Fulfilled', () => {
-//     store.dispatch({
-//       type: 'user/fetchUser/fulfilled',
-//       payload: {
-//         data: mockUpResponse,
-//       },
-//     });
 
-//     const { error, data, loading } = store.getState().users;
-//     expect(loading).toBeFalsy();
-//     expect(error).toBeFalsy();
-//     expect(data).not.toBeNull();
-//   });
+  test('fetchUser, Fulfilled', () => {
+    store.dispatch({
+      type: 'user/fetchUsers/fulfilled',
+      payload: {
+        data: {
+          users: [
+            {
+              id: 'user-1',
+              name: 'John Doe',
+              email: 'johndoe@mail.com',
+              avatar: 'https://generated-image-url.jpg',
+            },
+          ],
+        },
+      },
+    });
+
+    const { error, data, loading } = store.getState().users;
+    expect(loading).toBeFalsy();
+    expect(error).toBeFalsy();
+    expect(data).not.toBeNull();
+  });
+
+  test('fetchRegisterUsers, Pending', () => {
+    store.dispatch({ type: 'user/fetchRegisterUsers/pending' });
+
+    const { loading } = store.getState().users;
+    expect(loading).toBeTruthy();
+  });
+
+  test('fetchRegisterUsers, Fulfilled', () => {
+    store.dispatch({
+      type: 'user/fetchRegisterUsers/fulfilled',
+      payload: {
+        error: false,
+        data: {
+          users: [
+            {
+              id: 'user-1',
+              name: 'John Doe',
+              email: 'johndoe@mail.com',
+              avatar: 'https://generated-image-url.jpg',
+            },
+          ],
+        },
+        message: 'Success',
+      },
+    });
+
+    const { registered, message, loading } = store.getState().users;
+    expect(loading).toBeFalsy();
+    expect(registered).toBeTruthy();
+    expect(message).not.toBeNull();
+  });
+
+  test('fetchLoginUsers, Pending', () => {
+    store.dispatch({ type: 'user/fetchLoginUsers/pending' });
+
+    const { loading } = store.getState().users;
+    expect(loading).toBeTruthy();
+  });
+
+  test('fetchLoginUsers, Fulfilled', () => {
+    store.dispatch({
+      type: 'user/fetchLoginUsers/fulfilled',
+      payload: {
+        error: false,
+        token: 'random token',
+      },
+    });
+
+    const { authenticated, token, loading } = store.getState().users;
+    expect(loading).toBeFalsy();
+    expect(authenticated).toBeTruthy();
+    expect(token).not.toBeNull();
+  });
+
+  test('fetchDetailUsers, Pending', () => {
+    store.dispatch({ type: 'user/fetchDetailUsers/pending' });
+
+    const { loading } = store.getState().users;
+    expect(loading).toBeTruthy();
+  });
+
+  test('fetchDetailUsers, Fulfilled', () => {
+    store.dispatch({
+      type: 'user/fetchDetailUsers/fulfilled',
+      payload: {
+        error: false,
+        expired: false,
+        data: {
+          user: {
+            id: 'user-1',
+            name: 'John Doe',
+            email: 'johndoe@mail.com',
+            avatar: 'https://generated-image-url.jpg',
+          },
+        },
+      },
+    });
+
+    const { error, expired, detail } = store.getState().users;
+    expect(error).toBeTruthy();
+    expect(expired).toBeFalsy();
+    expect(detail).toBeDefined();
+  });
+
+  test('Thunk fetchLeaderboardAsync', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      data: {
+        users: [
+          {
+            id: 'user-1',
+            name: 'John Doe',
+            email: 'johndoe@mail.com',
+            avatar: 'https://generated-image-url.jpg',
+          },
+        ],
+      },
+    });
+    const localStore = configureStore({
+      reducer: (state, action) => {
+        if (action.type === 'user/fetchUsers/fulfilled') {
+          return action.payload;
+        }
+        return state;
+      },
+    });
+
+    await localStore.dispatch(listUserAsync(null));
+    localStore.dispatch(selectUser);
+    expect(fetchSpy).toBeCalled();
+  });
 });
