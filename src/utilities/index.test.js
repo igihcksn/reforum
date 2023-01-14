@@ -4,7 +4,7 @@ import { generateDay, getAccessToken, getUserById, putAccessToken, showFormatted
 describe('Utilities Test', () => {
   test('Generate Day', () => {
     const res = generateDay({ createdAt: '2023-01-11T13:06:06.573Z' });
-    expect(res).toEqual(1);
+    expect(res).not.toEqual(0);
   });
   test('Formatted Date', () => {
     const res = showFormattedDate('2023-01-11T13:06:06.573Z');

@@ -3,12 +3,12 @@ import {
   Button,
   FormControl, FormHelperText, FormLabel, Textarea,
 } from '@chakra-ui/react';
-import { COMMENT_INITIAL_VALUE, COMMENT_SCHEMA } from 'constants';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { createCommentAsync } from 'states/threads/threadSlice';
+import { COMMENT_INITIAL_VALUE, COMMENT_SCHEMA } from '../constants';
 
 function CommentForm() {
   const dispatch = useDispatch();
@@ -41,11 +41,11 @@ function CommentForm() {
               name="content"
               isInvalid={errors.content}
               onChange={handleChange}
-              value={values.content}
+              value={values && values.content}
             />
             {errors.content && <FormHelperText color="tomato">{errors.content}</FormHelperText>}
 
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} data-testid="submit-commentar">
               {
                 !isSubmitting ? 'Tambah' : 'Loading...'
               }

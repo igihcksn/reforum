@@ -5,10 +5,10 @@ import { putAccessToken } from 'utilities';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAsync, selectUser } from 'states/users/userSlice';
-import { BASE_URL, LOGIN_SCHEMA, LOGIN_INITIAL_VALUE } from 'constants';
 import {
   Button, FormControl, FormHelperText, FormLabel, Input, useToast,
 } from '@chakra-ui/react';
+import { BASE_URL, LOGIN_SCHEMA, LOGIN_INITIAL_VALUE } from '../constants';
 
 function Login() {
   const toast = useToast();
@@ -53,6 +53,7 @@ function Login() {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.email}
+              data-testid="input-name"
             />
             {errors.email && <FormHelperText color="tomato">{errors.email}</FormHelperText>}
 
@@ -64,6 +65,7 @@ function Login() {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password}
+              data-testid="input-password"
             />
             {errors.password && <FormHelperText color="tomato">{errors.password}</FormHelperText>}
 

@@ -24,6 +24,7 @@ module.exports = {
     'jest',
   ],
   rules: {
+    'react/jsx-filename-extension': 'off',
   },
   settings: {
     'import/resolver': {

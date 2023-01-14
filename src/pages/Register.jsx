@@ -2,13 +2,13 @@
 import {
   Button, FormControl, FormHelperText, FormLabel, Input, useToast,
 } from '@chakra-ui/react';
-import { REGISTER_SCHEMA, REGISTER_INITIAL_VALUE, BASE_URL } from 'constants';
 
 import { Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { registerUserAsync, selectUser } from 'states/users/userSlice';
+import { REGISTER_SCHEMA, REGISTER_INITIAL_VALUE, BASE_URL } from '../constants';
 
 function Register() {
   const dispatch = useDispatch();
@@ -71,6 +71,7 @@ function Register() {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.email}
+              data-testid="input-name"
             />
             {errors.email && <FormHelperText color="tomato">{errors.email}</FormHelperText>}
 
@@ -82,6 +83,7 @@ function Register() {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password}
+              data-testid="input-password"
             />
             {errors.password && <FormHelperText color="tomato">{errors.password}</FormHelperText>}
 
@@ -93,6 +95,7 @@ function Register() {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password_confirm}
+              data-testid="input-password-confirm"
             />
             {errors.password_confirm && <FormHelperText color="tomato">{errors.password_confirm}</FormHelperText>}
 
