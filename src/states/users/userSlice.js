@@ -1,5 +1,6 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-param-reassign */
+/* eslint-disable no-alert */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userAPI from './userAPI';
 
@@ -30,6 +31,7 @@ export const loginUserAsync = createAsyncThunk('user/fetchLoginUsers', async ({ 
   const response = await userAPI.login({ email, password });
 
   if (response.status !== 'success') {
+    alert(response.message);
     return { error: true };
   }
 
@@ -40,6 +42,7 @@ export const detailUserAsync = createAsyncThunk('user/fetchDetailUsers', async (
   const response = await userAPI.detail();
 
   if (response.status !== 'success') {
+    alert(response.message);
     return { error: true, expired: response.status === 'fail' };
   }
 

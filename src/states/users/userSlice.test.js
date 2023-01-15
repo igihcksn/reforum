@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import { configureStore } from '@reduxjs/toolkit';
 import { store } from 'utilities';
-import { listUserAsync, selectUser } from './userSlice';
+import { listUserAsync, selectUser, setRefreshAuthorizedUser, setUnAuthorizedUser } from './userSlice';
 
 describe('User Redux State', () => {
   test('Have default value', () => {
@@ -154,5 +154,17 @@ describe('User Redux State', () => {
     await localStore.dispatch(listUserAsync(null));
     localStore.dispatch(selectUser);
     expect(fetchSpy).toBeCalled();
+  });
+
+  test('Reducer setUnAuthorizedUser', () => {
+    store.dispatch(setUnAuthorizedUser());
+    const state = store.getState().users;
+    expect(state.token).toBe(null);
+  });
+
+  test('Reducer setRefreshAuthorizedUser', () => {
+    store.dispatch(setRefreshAuthorizedUser());
+    const state = store.getState().users;
+    expect(state.authenticated).toBeTruthy();
   });
 });

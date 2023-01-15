@@ -88,6 +88,7 @@ function Navbar() {
               <Button
                 leftIcon={<BiUserCircle />}
                 onClick={() => setLogout()}
+                data-testid="logout-button"
               >
                 {users.detail && users.detail.name}
 
@@ -103,7 +104,7 @@ function Navbar() {
                     Leaderboard
                   </MenuItem>
                   <MenuItem onClick={onOpen}>Tambah Diskusi</MenuItem>
-                  <MenuItem onClick={() => setLogout()}>
+                  <MenuItem onClick={() => setLogout()} data-testid="logout-button">
                     {users.detail && users.detail.name}
 
                   </MenuItem>

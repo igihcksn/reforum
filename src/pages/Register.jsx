@@ -99,7 +99,7 @@ function Register() {
             />
             {errors.password_confirm && <FormHelperText color="tomato">{errors.password_confirm}</FormHelperText>}
 
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} data-testid="register-button">
               {
                 !isSubmitting ? 'Register' : 'Loading...'
               }

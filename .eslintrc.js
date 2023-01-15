@@ -22,6 +22,7 @@ module.exports = {
   plugins: [
     'react',
     'jest',
+    'cypress',
   ],
   rules: {
     'react/jsx-filename-extension': 'off',

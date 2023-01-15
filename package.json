@@ -29,7 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "npx eslint ./src"
+    "lint": "npx eslint ./src",
+    "e2e": "cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -50,8 +51,10 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^12.3.0",
     "eslint": "^8.31.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.11",
