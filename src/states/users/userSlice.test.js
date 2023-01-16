@@ -262,7 +262,7 @@ describe('User Redux State', () => {
         email: 'udin@mail.com',
         password: 'adminaja',
       }));
-      expect(api.detailUserAsyncs).toBeDefined();
+      expect(api.detailUserAsync).toBeDefined();
     });
   });
 });
