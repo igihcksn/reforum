@@ -32,7 +32,7 @@ describe('Login Scenario', () => {
     cy.get('input[type="email"]').type('namaku@mail.com');
     cy.get('input[type="password"]').type('adminaja');
     cy.get('button').contains(/^Login$/).click().then(async () => {
-      cy.url().should('eq', 'http://localhost:3000/thread');
+      cy.url().should('eq', 'http://localhost:3000/');
       cy.contains('Leaderboard');
       cy.contains('Tambah Diskusi');
       cy.wait(1000);
