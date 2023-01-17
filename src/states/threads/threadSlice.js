@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL } from 'constants';
+import threadAPI from './threadAPI';
 
 const initialState = {
   loading: false,
@@ -10,124 +10,76 @@ const initialState = {
 };
 
 export const listAsync = createAsyncThunk('thread/fetchTheread', async () => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.THREADS}`);
-  const responseJson = await response.json();
-  return responseJson;
+  const response = await threadAPI.fetchAll();
+  return response;
 });
 
 export const detailThereadAsync = createAsyncThunk(
   'thread/fetchThereadById',
   async (threadId) => {
-    const response = await fetch(
-      `${BASE_URL.API}${BASE_URL.THREADS}/${threadId}`,
-    );
-    const responseJson = await response.json();
-    return responseJson;
+    const response = await threadAPI.detailThread(threadId);
+    return response;
   },
 );
 
 export const createThereadAsync = createAsyncThunk('thread/createTheread', async ({ title, body, category }) => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.THREADS}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-    body: JSON.stringify({ title, body, category }),
-  });
-  const responseJson = await response.json();
+  const response = await threadAPI.createThread({ title, body, category });
 
-  if (responseJson.status !== 'success') {
-    return { error: true, expired: responseJson.status === 'fail' };
+  if (response.status !== 'success') {
+    return { error: true, expired: response.status === 'fail' };
   }
 
-  return { error: false, data: responseJson.data.thread };
+  return { error: false, data: response.data.thread };
 });
 
 export const createCommentAsync = createAsyncThunk('thread/createComment', async ({ content, threadId }) => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.THREADS_COMMETS.replace(':id', threadId)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-    body: JSON.stringify({ content }),
-  });
-  const responseJson = await response.json();
+  const response = await threadAPI.createComment({ content, threadId });
 
-  if (responseJson.status !== 'success') {
-    return { error: true, expired: responseJson.status === 'fail' };
+  if (response.status !== 'success') {
+    return { error: true, expired: response.status === 'fail' };
   }
 
-  return { error: false, data: responseJson.data.comment };
+  return { error: false, data: response.data.comment };
 });
 
 export const upVoteCommentAsync = createAsyncThunk('thread/upVoteComment', async ({ threadId, commentId }) => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.UP_VOTE_COMMENT.replace(':threadId', threadId).replace(':commentId', commentId)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  const responseJson = await response.json();
+  const response = await threadAPI.upVoteComment({ threadId, commentId });
 
-  if (responseJson.status !== 'success') {
-    return { error: true, expired: responseJson.status === 'fail' };
+  if (response.status !== 'success') {
+    return { error: true, expired: response.status === 'fail' };
   }
 
-  return { error: false, data: responseJson.data.vote };
+  return { error: false, data: response.data.vote };
 });
 
 export const downVoteCommentAsync = createAsyncThunk('thread/downVoteComment', async ({ threadId, commentId }) => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.DOWN_VOTE_COMMENT.replace(':threadId', threadId).replace(':commentId', commentId)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  const responseJson = await response.json();
+  const response = await threadAPI.downVoteComment({ threadId, commentId });
 
-  if (responseJson.status !== 'success') {
-    return { error: true, expired: responseJson.status === 'fail' };
+  if (response.status !== 'success') {
+    return { error: true, expired: response.status === 'fail' };
   }
 
-  return { error: false, data: responseJson.data.vote };
+  return { error: false, data: response.data.vote };
 });
 
 export const upVoteThreadAsync = createAsyncThunk('thread/upVote', async ({ threadId }) => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.UP_VOTE.replace(':threadId', threadId)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  const responseJson = await response.json();
+  const response = await threadAPI.upVoteTheread({ threadId });
 
-  if (responseJson.status !== 'success') {
-    return { error: true, expired: responseJson.status === 'fail' };
+  if (response.status !== 'success') {
+    return { error: true, expired: response.status === 'fail' };
   }
 
-  return { error: false, data: responseJson.data.vote };
+  return { error: false, data: response.data.vote };
 });
 
 export const downVoteThreadAsync = createAsyncThunk('thread/downVote', async ({ threadId }) => {
-  const response = await fetch(`${BASE_URL.API}${BASE_URL.DOWN_VOTE.replace(':threadId', threadId)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  const responseJson = await response.json();
+  const response = await threadAPI.downVoteTheread({ threadId });
 
-  if (responseJson.status !== 'success') {
-    return { error: true, expired: responseJson.status === 'fail' };
+  if (response.status !== 'success') {
+    return { error: true, expired: response.status === 'fail' };
   }
 
-  return { error: false, data: responseJson.data.vote };
+  return { error: false, data: response.data.vote };
 });
 
 export const threadSlice = createSlice({
