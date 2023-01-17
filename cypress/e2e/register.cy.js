@@ -43,7 +43,7 @@ describe('Register Scenario', () => {
       cy.get('input[type="email"]').type(`namaku${UniqueNumber}@mail.com`);
       cy.get('input[type="password"]').type('adminaja12345');
       cy.get('button').contains(/^Login$/).click().then(async () => {
-        cy.url().should('eq', 'http://localhost:3000/thread');
+        cy.url().should('eq', 'http://localhost:3000/');
         cy.contains('Leaderboard');
         cy.contains('Tambah Diskusi');
         cy.wait(1000);

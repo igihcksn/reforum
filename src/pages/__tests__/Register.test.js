@@ -9,6 +9,13 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import Register from 'pages/Register';
 
+const mockedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedNavigate,
+}));
+
 test('Render register page', async () => {
   render(
     <Provider store={store}>

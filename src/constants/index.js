@@ -16,7 +16,7 @@ const BASE_URL = {
   UNDO_VOTE_COMMENT: 'threads/:threadId/comments/:commentId/neutral-vote',
 
   //   Pages
-  HOMEPAGE: '/thread',
+  HOMEPAGE: '/',
   LEADERBOARD: '/leaderboards',
   LOGIN: '/login',
   REGISTER: '/register',
