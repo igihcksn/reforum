@@ -49,7 +49,7 @@ function ThreadHeader({
           leftIcon={<BiLike />}
           rightIcon={<Tag variant={isVoteByMe ? 'solid' : 'ghost'} colorScheme={isVoteByMe && 'gray'}>{detailThreads.upVotesBy.length}</Tag>}
           onClick={() => upVoteThreadHandler()}
-          disabled={isVoteByMe}
+          disabled={isVoteByMe || !user}
           colorScheme={isVoteByMe && 'green'}
         >
           Like
@@ -59,7 +59,7 @@ function ThreadHeader({
           leftIcon={<BiDislike />}
           rightIcon={<Tag variant={isDownVoteByMe ? 'solid' : 'ghost'} colorScheme={isDownVoteByMe && 'gray'}>{detailThreads.downVotesBy.length}</Tag>}
           onClick={() => downVoteThreadHandler()}
-          disabled={isDownVoteByMe}
+          disabled={isDownVoteByMe || !user}
           colorScheme={isDownVoteByMe && 'red'}
         >
           Unlike
@@ -82,7 +82,11 @@ ThreadHeader.propTypes = {
   }).isRequired,
   upVoteThreadHandler: PropTypes.func.isRequired,
   downVoteThreadHandler: PropTypes.func.isRequired,
-  user: PropTypes.string.isRequired,
+  user: PropTypes.string,
+};
+
+ThreadHeader.defaultProps = {
+  user: null,
 };
 
 export default ThreadHeader;
