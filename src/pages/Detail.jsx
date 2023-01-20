@@ -61,7 +61,7 @@ function DetailPage() {
               detailThreads={detailThreads}
               upVoteThreadHandler={upVoteThreadHandler}
               downVoteThreadHandler={downVoteThreadHandler}
-              user={users && users.detail.id}
+              user={users && users.detail && users.detail.id}
             />
           </CardHeader>
           <CardBody>
@@ -79,7 +79,7 @@ function DetailPage() {
               {!detailThreads.comments.length && (
                 <Box>Komentar belum ada...</Box>
               )}
-              {detailThreads.comments.length
+              {users.detail && detailThreads.comments.length
                 && detailThreads.comments.map((comment) => (
                   <CommentStack
                     key={comment.id}
